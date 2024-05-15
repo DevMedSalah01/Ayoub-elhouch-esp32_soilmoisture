@@ -1,0 +1,182 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Surveillance d'humidité des plantes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #soil-moisture-chart {
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Humidité du sol</h1>
+  <div id="soil-moisture-chart"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    fetch('/api/soil-moisture')
+      .then(response => response.json())
+      .then(data => {
+        const ctx = document.getElementById('soil-moisture-chart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.map(item => new Date(item.timestamp).toLocaleString()),
+            datasets: [{
+              label: 'Humidité du sol',
+              data: data.map(item => item.soilMoisture),
+              borderColor: 'blue',
+              fill: false
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                min: 0,
+                max: 4095, // Valeur maximale pour un capteur analogique 12 bits
+                ticks: {
+                  stepSize: 500
+                }
+              }
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Surveillance d'humidité des plantes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #soil-moisture-chart {
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+    }
+    .led-container {
+      margin-top: 20px;
+    }
+    .led {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ccc;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .led.on {
+      background-color: #ff0000;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Humidité du sol</h1>
+  <div id="soil-moisture-chart"></div>
+
+  <div class="led-container">
+    <div class="led" id="led"></div>
+    <button id="led-button">Toggle LED</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+ -->
+
+ <!-- index.html -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Soil Moisture</title>
+</head>
+<body>
+  <h1>Soil Moisture</h1>
+  <p>Current soil moisture: <span id="soilMoistureValue">Loading...</span></p>
+  <script src="script.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soil Moisture Data Viewer</title>
+</head>
+<body>
+<h1>Soil Moisture Data</h1>
+<div id="data"></div>
+
+<script>
+window.onload = function() {
+    // Function to fetch data from the server
+    function fetchData() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                displayData(data);
+            }
+        };
+        xhttp.open("GET", "C:\\xampp\\htdocs\\soil-moisture-data.json", true);
+        xhttp.send();
+    }
+
+    // Function to display data on the webpage
+    function displayData(data) {
+        var dataDiv = document.getElementById("data");
+        dataDiv.innerHTML = ""; // Clear previous data
+
+        data.forEach(function(entry) {
+            var p = document.createElement("p");
+            p.textContent = "Soil Moisture: " + entry.soilMoisture + ", Timestamp: " + entry.timestamp;
+            dataDiv.appendChild(p);
+        });
+    }
+
+    // Fetch data initially and then at regular intervals
+    fetchData();
+    setInterval(fetchData, 5000); // Refresh data every 5 seconds
+};
+</script>
+</body>
+</html>
+
